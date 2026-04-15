@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 
-@TeleOp (name = "misterRIZZZZZYface")
+@TeleOp (name = "MyTeleOp")
 
 
 public class MyTeleOp extends LinearOpMode {
@@ -27,6 +27,8 @@ public class MyTeleOp extends LinearOpMode {
         rightBackMotor = hardwareMap.get(DcMotor.class,"rightBackMotor");
         leftBackMotor = hardwareMap.get(DcMotor.class,"leftBackMotor");
         armMotor = hardwareMap.get(DcMotor.class,"armMotor");
+
+        armMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         leftFrontMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightFrontMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -53,26 +55,47 @@ public class MyTeleOp extends LinearOpMode {
 
 
             double drive = -gamepad1.left_stick_y;
+            double strafe = gamepad1.left_stick_x;
             double turn = gamepad1.right_stick_x;
 
-            if(Math.abs(drive)<0.05){
-                drive = 0.0;
+            if(Math.abs(drive)<0.05) drive = 0.00;
+            if (Math.abs(turn)<0.05) turn = 0.00;
+            if(Math.abs(strafe)<0.05) strafe = 0.00;
 
+
+            double leftFrontPower = drive+strafe+turn;
+            double rightFrontPower= drive-strafe-turn;
+            double leftBackPower = drive-strafe +turn;
+            double rightBackPower = drive+strafe-turn;
+
+
+            double max = Math.max(Math.abs(leftFrontPower),
+                    Math.max(Math.abs(leftBackPower),
+                            Math.max(Math.abs(rightFrontPower), Math.abs(rightBackPower))));
+            if (max > 1.0) {
+                leftFrontPower /= max;
+                leftBackPower /= max;
+                rightFrontPower /= max;
+                rightBackPower /= max;
             }
-            if (Math.abs(turn)<0.05){
-                turn = 0.0;
-            }
 
-            double leftPower = drive+turn;
-            double rightPower= drive-turn;
 
-             leftPower = Math.max(-1,Math.min(1,leftPower));
-             rightPower = Math.max(-1,Math.min(1,rightPower));
 
-            leftFrontMotor.setPower(leftPower * speedMultiplier);
-            leftBackMotor.setPower(leftPower * speedMultiplier);
-            rightFrontMotor.setPower(rightPower * speedMultiplier);
-            rightBackMotor.setPower(rightPower * speedMultiplier);
+
+
+                leftFrontPower *= speedMultiplier;
+                leftBackPower *= speedMultiplier;
+                rightFrontPower *= speedMultiplier;
+                rightBackPower *= speedMultiplier;
+
+                leftFrontMotor.setPower(leftFrontPower);
+                leftBackMotor.setPower(leftBackPower);
+                rightFrontMotor.setPower(rightFrontPower);
+                rightBackMotor.setPower(rightBackPower);
+
+
+
+
 
             if(gamepad1.a){
                 armMotor.setPower(0.7);
