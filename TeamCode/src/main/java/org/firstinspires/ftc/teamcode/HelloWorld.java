@@ -44,6 +44,12 @@ public class HelloWorld extends OpMode {
         String MyName = "Akhil";
         telemetry.addData("Hello" , MyName);/* This will show up on
          the control hub under TeleOp INIT. */
+
+        int number = 1;
+        while(number<100){
+            number++;
+            System.out.println(number);
+        }
     }
 
 

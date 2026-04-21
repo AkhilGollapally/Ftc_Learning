@@ -30,11 +30,6 @@ public class MyTeleOp extends LinearOpMode {
 
         armMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        leftFrontMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightFrontMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightBackMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        leftBackMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        armMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         leftFrontMotor.setDirection(DcMotor.Direction.REVERSE);
         leftBackMotor.setDirection(DcMotor.Direction.REVERSE);
@@ -50,13 +45,14 @@ public class MyTeleOp extends LinearOpMode {
                 speedMultiplier = 0.4;
             }
             else if (gamepad1.left_bumper){ // fast mode
-                speedMultiplier =0.8;
+                speedMultiplier =1.0;
             }
 
 
             double drive = -gamepad1.left_stick_y;
             double strafe = gamepad1.left_stick_x;
             double turn = gamepad1.right_stick_x;
+
 
             if(Math.abs(drive)<0.05) drive = 0.00;
             if (Math.abs(turn)<0.05) turn = 0.00;
@@ -67,21 +63,6 @@ public class MyTeleOp extends LinearOpMode {
             double rightFrontPower= drive-strafe-turn;
             double leftBackPower = drive-strafe +turn;
             double rightBackPower = drive+strafe-turn;
-
-
-            double max = Math.max(Math.abs(leftFrontPower),
-                    Math.max(Math.abs(leftBackPower),
-                            Math.max(Math.abs(rightFrontPower), Math.abs(rightBackPower))));
-            if (max > 1.0) {
-                leftFrontPower /= max;
-                leftBackPower /= max;
-                rightFrontPower /= max;
-                rightBackPower /= max;
-            }
-
-
-
-
 
                 leftFrontPower *= speedMultiplier;
                 leftBackPower *= speedMultiplier;
