@@ -2,17 +2,12 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 
 @TeleOp
 public class CoolTeleOp extends LinearOpMode{
 
-    private DcMotor rightFrontMotor;
-    private DcMotor rightBackMotor;
-    private DcMotor leftFrontMotor;
-    private DcMotor leftBackMotor;
+    private Storage Storage;
 
     @Override
     public void runOpMode() throws InterruptedException{
@@ -20,18 +15,11 @@ public class CoolTeleOp extends LinearOpMode{
         double drive, turn, strafe;
         double rbPower, rfPower, lbPower, lfPower;
 
-        rightBackMotor = hardwareMap.dcMotor.get("rightBackMotor");
-        rightFrontMotor = hardwareMap.dcMotor.get("rightFrontMotor");
-        leftBackMotor = hardwareMap.dcMotor.get("leftBackMotor");
-        leftFrontMotor = hardwareMap.dcMotor.get("leftFrontMotor");
+        Storage = new Storage();
 
-        rightFrontMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-        rightBackMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        Storage.set_Motors(hardwareMap);
 
-        rightBackMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightFrontMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        leftFrontMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        leftBackMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        Storage.config_teleop();
 
         waitForStart();
         if (isStopRequested()) return;
@@ -47,6 +35,8 @@ public class CoolTeleOp extends LinearOpMode{
             lbPower = drive + turn - strafe;
             lfPower = drive + turn + strafe;
 
+            Storage.set_wheel_power(rfPower,rbPower,lfPower,lbPower);
         }
+        Storage.stop_motors();
     }
 }
