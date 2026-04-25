@@ -14,11 +14,10 @@ public class CoolTeleOp extends LinearOpMode{
 
         double drive, turn, strafe;
         double rbPower, rfPower, lbPower, lfPower;
+        double aPower;
 
         Storage = new Storage();
-
         Storage.set_Motors(hardwareMap);
-
         Storage.config_teleop();
 
         waitForStart();
@@ -35,7 +34,19 @@ public class CoolTeleOp extends LinearOpMode{
             lbPower = drive + turn - strafe;
             lfPower = drive + turn + strafe;
 
-            Storage.set_wheel_power(rfPower,rbPower,lfPower,lbPower);
+
+
+            if (gamepad1.a){
+                aPower = 0.7;
+            }
+            if (gamepad1.b){
+                aPower = -0.7;
+            }
+            else{
+                aPower = 0;
+            }
+
+            Storage.set_power(rfPower,rbPower,lfPower,lbPower,aPower);
         }
         Storage.stop_motors();
     }

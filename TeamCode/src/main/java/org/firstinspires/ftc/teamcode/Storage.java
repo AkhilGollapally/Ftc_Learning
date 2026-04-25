@@ -8,6 +8,7 @@ public class Storage {
     DcMotor rightBackMotor;
     DcMotor leftFrontMotor;
     DcMotor leftBackMotor;
+    DcMotor armMotor;
 
     public void config_teleop(){
 
@@ -18,6 +19,7 @@ public class Storage {
         rightFrontMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         leftFrontMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         leftBackMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        armMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
     }
 
@@ -26,17 +28,19 @@ public class Storage {
         rightFrontMotor = hwMap.dcMotor.get("rightFrontMotor");
         leftBackMotor = hwMap.dcMotor.get("leftBackMotor");
         leftFrontMotor = hwMap.dcMotor.get("leftFrontMotor");
+        armMotor = hwMap.dcMotor.get("armMotor");
     }
 
-    public void set_wheel_power(double rfPower, double rbPower, double lfPower, double lbPower){
+    public void set_power(double rfPower, double rbPower, double lfPower, double lbPower, double aPower){
         rightFrontMotor.setPower(rfPower);
         rightBackMotor.setPower(rbPower);
         leftFrontMotor.setPower(lfPower);
         leftBackMotor.setPower(lbPower);
+        armMotor.setPower(aPower);
     }
 
     public void stop_motors(){
-        set_wheel_power(0,0,0,0);
+        set_power(0,0,0,0,0);
     }
 
 }
