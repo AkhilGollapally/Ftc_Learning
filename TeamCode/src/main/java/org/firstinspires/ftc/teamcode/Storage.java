@@ -24,14 +24,16 @@ public class Storage {
     }
 
     public void set_Motors(HardwareMap hwMap){
-        rightBackMotor = hwMap.dcMotor.get("rightBackMotor");
-        rightFrontMotor = hwMap.dcMotor.get("rightFrontMotor");
-        leftBackMotor = hwMap.dcMotor.get("leftBackMotor");
-        leftFrontMotor = hwMap.dcMotor.get("leftFrontMotor");
-        armMotor = hwMap.dcMotor.get("armMotor");
+        rightBackMotor = hwMap.get(DcMotor.class,"rightBackMotor");
+        rightFrontMotor = hwMap.get(DcMotor.class,"rightFrontMotor");
+        leftBackMotor = hwMap.get(DcMotor.class,"leftBackMotor");
+        leftFrontMotor = hwMap.get(DcMotor.class,"leftFrontMotor");
+        armMotor = hwMap.get(DcMotor.class,"armMotor");
     }
 
     public void set_power(double rfPower, double rbPower, double lfPower, double lbPower, double aPower){
+
+
         rightFrontMotor.setPower(rfPower);
         rightBackMotor.setPower(rbPower);
         leftFrontMotor.setPower(lfPower);

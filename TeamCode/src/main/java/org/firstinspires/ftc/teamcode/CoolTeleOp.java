@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 
-@TeleOp
+@TeleOp (name = "CoolTeleOp")
 public class CoolTeleOp extends LinearOpMode{
 
     private Storage Storage;
@@ -13,8 +13,8 @@ public class CoolTeleOp extends LinearOpMode{
     public void runOpMode() throws InterruptedException{
 
         double drive, turn, strafe;
-        double rbPower, rfPower, lbPower, lfPower;
-        double aPower;
+        double rbPower, rfPower, lbPower, lfPower,aPower;
+
 
         Storage = new Storage();
         Storage.set_Motors(hardwareMap);
@@ -25,6 +25,16 @@ public class CoolTeleOp extends LinearOpMode{
 
         while (opModeIsActive()){
 
+            double RobotSpeed = 0.75;
+            if (gamepad1.left_bumper){
+                RobotSpeed = 0.4; // slow
+            }
+            else if (gamepad1.right_bumper){
+                RobotSpeed = 1; // fast
+            }
+
+
+
             drive = gamepad1.left_stick_y * -1;
             turn = gamepad1.right_stick_x;
             strafe = gamepad1.left_stick_x;
@@ -34,12 +44,21 @@ public class CoolTeleOp extends LinearOpMode{
             lbPower = drive + turn - strafe;
             lfPower = drive + turn + strafe;
 
+            rbPower *= RobotSpeed;
+            rfPower *= RobotSpeed;
+            lbPower *= RobotSpeed;
+            lfPower *= RobotSpeed;
+
+
+
+
+
 
 
             if (gamepad1.a){
                 aPower = 0.7;
             }
-            if (gamepad1.b){
+            else if (gamepad1.b){
                 aPower = -0.7;
             }
             else{
