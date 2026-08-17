@@ -25,15 +25,6 @@ public class CoolTeleOp extends LinearOpMode{
 
         while (opModeIsActive()){
 
-            double RobotSpeed = 0.75;
-            if (gamepad1.left_bumper){
-                RobotSpeed = 0.4; // slow
-            }
-            else if (gamepad1.right_bumper){
-                RobotSpeed = 1; // fast
-            }
-
-
 
             drive = gamepad1.left_stick_y * -1;
             turn = gamepad1.right_stick_x;
@@ -44,15 +35,8 @@ public class CoolTeleOp extends LinearOpMode{
             lbPower = drive + turn - strafe;
             lfPower = drive + turn + strafe;
 
-            rbPower *= RobotSpeed;
-            rfPower *= RobotSpeed;
-            lbPower *= RobotSpeed;
-            lfPower *= RobotSpeed;
 
-
-
-
-
+            
 
 
             if (gamepad1.a){
